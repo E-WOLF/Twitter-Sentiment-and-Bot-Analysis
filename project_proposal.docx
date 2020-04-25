@@ -1,0 +1,29 @@
+Eli Wolfson
+Problem Solving and Software Design 
+4.25.2020
+Project Proposal
+Section 1. The Big Idea
+My project idea is to create a web application that will leverage the twitter API to extract sentiment analysis for any term that the user would like to search.
+ I will also leverage a second API called “botometer” to only return the sentiment analysis on tweets that stem from proprietary tweets and not online bots. 
+ I think that this project is timely given our current social and political climates. 
+ I would like to use such a tool so I think that there is a real world and practical use case for this website. 
+This project will explore many different topics including: 
+•	Textblob/vaderstentiment analysis libraries. 
+•	Polarity score analysis
+•	Running a webapp on flask 
+•	CSS Stylesheets / HTML
+My stretch goal is to also integrate visual analytics on the tweets and corresponding sentiment analysis. 
+Section 2. Learning Goals
+I am interested in natural language process and text analysis. As such I’d like to learn more about these libraries and their applications. 
+I also think that sentiment analysis is an interesting use of these tools, especially given the ease of access to high volumes of public data and text to analyze given access to twitters API. 
+Individual Goals:
+Eli would like to work on his python and analytics skills while learning how to launch a functional website and product. 
+Section 3. Implementation Plan
+I will utilize some of the code from my first twitter sentiment project, however, there will be considerable work learning to use and integrate the botometer API to only display and analyze authentically generated tweets.
+Likewise, I would like to build an aesthetically pleasing user interface. 
+Section 4. Risks
+I am excited to achieve my goal and to build a useful product that I can be proud of. 
+That being said, to me the main risk is in attempting to integrate the botometer API.
+ I have never worked with this API before and am unsure how it will integrate into the twitter API and if my end goals with the project will be attainable. 
+
+
