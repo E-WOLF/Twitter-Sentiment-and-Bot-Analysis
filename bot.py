@@ -1,6 +1,7 @@
+# this is a test page for the bot API...
 import botometer
 import tweepy
-import pprint
+from pprint import pprint
 
 rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9" # now it's called rapidapi key
 twitter_app_auth = {
@@ -18,4 +19,4 @@ botometer_api_url = 'https://botometer-pro.p.rapidapi.com'
 bom = botometer.Botometer(botometer_api_url=botometer_api_url, wait_on_ratelimit=True, rapidapi_key=rapidapi_key, **twitter_app_auth)
 result = bom.check_account('@probabot_')
 
-print(result)
+pprint(result['scores']['universal'])

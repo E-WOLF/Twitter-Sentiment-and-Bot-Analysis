@@ -19,9 +19,26 @@ font-size: 20px;
 </head>
 
   <body>
-    <h1>Twitter Botcheck & Sentiment, Homepage</h1>
-    <h2>Hello, User</h2>
-    <a href="{{ url_for('hello') }}">Click to see if user is a bot, and check their sentiemnt!</a>
+  
+    <h1>Twitter Botcheck & Sentiment Analysis Tool.</h1>
+    <form  method="POST" name="user_sentiment">
+        {% if error %}
+        <p> Invalid. Please enter in a twitter user. </p>
+        {% endif %}
+        </p>           
+        <p><b> Please enter a twitter user ID (include @): </b></p>
+        <p>
+        <input type="text" size="18" name="account" placeholder="Ex: @janedoe">
+        </p>
+        <p><b> How many tweets (keep between 1-200 results per API limits): </b></p>
+        <p>
+        <input type="text" size="18" name="count" value=50>
+        </p>
+        <br>
+            <input type="submit" value="Magic Happens" /> 
+        </br>
+
+    </form>
   </body>
 
 </html>

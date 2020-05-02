@@ -19,9 +19,12 @@ p {
 </style>
 </head>
 <body>
-    <h1>Results</h1>
+    <h1>Twitter User, Results!</h1>
     <p>
-        The nearest MBTA station is <i>{{station_name}}</i>. It is <i>{{wheelchair_accessible}}</i> accessible via wheel chair. 
+      <br><b>Percent positive tweets from user: </b><i>{{user_tweet_data.positive}}</i> %. </br>
+      <br><b>Percent negative tweets from user: </b> <i>{{user_tweet_data.negative}}</i> %. </br>
+      <br><b>Percent neutral tweets from user: </b><i>{{user_tweet_data.neutral}}</i> %. </br>
+      <br><b>The likely hood that this account is a bot is: </b><i>{{user_tweet_data.bot_percent}}</i>  ...(0-1, with 1 being most bot-like.) </br>
     </p>
     <p>
         <a href="{{url_for('hello')}}">Go back to the Twitter Tool.</a> 

@@ -1,33 +1,40 @@
 import nltk
-import twitter_credentials # this file has my twitter API credentials: consumer key, consumer secret, access token, access secret.
+# this file has my twitter API credentials: consumer key, consumer secret, access token, access secret.
+import twitter_credentials
 import tweepy
 import pandas as pd
 import numpy as np
-import re 
+import re
 import matplotlib.pyplot as plt
 import botometer
-import requests 
+import requests
 
 from textblob import TextBlob
-from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator # to run a wordcloud you need the proper software installed in system (I have visual studio)
+# to run a wordcloud you need the proper software installed in system (I have visual studio)
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
 rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9"
-auth = OAuthHandler(twitter_credentials.consumer_key, twitter_credentials.consumer_secret) # authentication object
-auth.set_access_token(twitter_credentials.token, twitter_credentials.token_secret) # setting the access token & access token secret 
-api = tweepy.API(auth) # creating API object that uses auth info
+auth = OAuthHandler(twitter_credentials.consumer_key,
+                    twitter_credentials.consumer_secret)  # authentication object
+# setting the access token & access token secret
+auth.set_access_token(twitter_credentials.token,
+                      twitter_credentials.token_secret)
+api = tweepy.API(auth)  # creating API object that uses auth info
 
 # documentation: https://github.com/IUNetSci/botometer-python
 
-def is_bot(bot):
-    rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9" # now it's called rapidapi key
+
+def is_bot(account):
+    # now it's called rapidapi key
+    rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9"
     twitter_app_auth = {
-    'consumer_key': 'bhMOINHjn7hJrSuw207fISCuZ',
-    'consumer_secret': 'dNPYY23HgRyCvzsOvEFkQ1XYJdemSczBAD7wFx4XOVC3vDlqPY',
-    'access_token': '708013197060657152-MOq9K2WaueJJRuxPWwhsJbVeCDccr42',
-    'access_token_secret': 'ACHgS2VAI5udSOSkxYjdBbj3YIgXObEWQHPs0FCSVDUFo',
+        'consumer_key': 'bhMOINHjn7hJrSuw207fISCuZ',
+        'consumer_secret': 'dNPYY23HgRyCvzsOvEFkQ1XYJdemSczBAD7wFx4XOVC3vDlqPY',
+        'access_token': '708013197060657152-MOq9K2WaueJJRuxPWwhsJbVeCDccr42',
+        'access_token_secret': 'ACHgS2VAI5udSOSkxYjdBbj3YIgXObEWQHPs0FCSVDUFo',
     }
 
     '''
@@ -35,21 +42,22 @@ def is_bot(bot):
     '''
 
     botometer_api_url = 'https://botometer-pro.p.rapidapi.com'
-    bom = botometer.Botometer(botometer_api_url=botometer_api_url, wait_on_ratelimit=True, rapidapi_key=rapidapi_key, **twitter_app_auth)
-    result = bom.check_account(tweet)
-    return
+    bom = botometer.Botometer(botometer_api_url=botometer_api_url,
+                              wait_on_ratelimit=True, rapidapi_key=rapidapi_key, **twitter_app_auth)
+    result = bom.check_account(account)
+    return "{0:.2f}".format(result['scores']['universal'])
+
 
 def percentage(part, whole):
     return 100 * float(part)/float(whole)
 
-# extract tweets from user
 
 def get_tweet_sentiment(tweet):
-	'''
-	check the tweets sentiment passing through tweet
-	using textblob's sentiment polarity analyzer.
-	'''
-    analysis = TextBlob(tweet)
+    '''
+    check the tweets sentiment passing through tweet
+    using textblob's sentiment polarity analyzer.
+    '''
+    analysis = TextBlob(tweet.text)
     # set sentiment
     if analysis.sentiment.polarity > 0:
         return 'positive'
@@ -58,72 +66,71 @@ def get_tweet_sentiment(tweet):
     else:
         return 'negative'
 
-        #need help with this
-        # code for pie chart https://matplotlib.org/3.1.1/gallery/pie_and_polar_charts/pie_features.html
-
-
 
 def get_tweets(user_name, number_tweets_analyze=50):
     """
     important, function to pull tweets.
     """
-    t = []
-    tw = self.api.search(q=user_name, number_tweets_analyze = number_tweets_analyze)
-    for tweet in tw:
-        parsed_tweet = {}
+    # tweets = []
+    tweets = api.search(
+        q=user_name, number_tweets_analyze=number_tweets_analyze)
 
-        parsed_tweet['text'] = tweet.text
-        parsed_tweet['sentiment'] = get_tweet_sentiment(tweet.text)
+    return tweets
 
-        if tweet.retweet_count > 0:
-            '''
-            only append retweets once
-            '''
-            if parsed_tweet not in t:
-                t.append(parsed_tweet)
-            else:
-                t.append(parsed_tweet)
-    return t
 
-   
-
-        
-def find_twitter_user():
+def calc_user_sentiment_stats(user, count=50):
     '''
     function to tie everything together.
     '''
-    return get_tweets(*get_tweet_sentiment(tweet)) # not sure on this one. 
+    tweets = get_tweets(user)
+
+    pos_tweets = []
+    neg_tweets = []
+    neut_tweets = []
+
+    for tweet in tweets:
+        sentiment = get_tweet_sentiment(tweet)
+        if sentiment == 'positive':
+            pos_tweets.append(tweet)
+        elif sentiment == 'negitive':
+            neg_tweets.append(tweet)
+        elif sentiment == 'neutral':
+            neut_tweets.append(tweet)
+
+    # percentage of positive tweets
+    positive = "{0:.2f}".format(100 * len(pos_tweets) / len(tweets))
+    # percentage of negative tweets
+    negative = "{0:.2f}".format(100 * len(neg_tweets) / len(tweets))
+    # percentage of neutral tweets
+    neutral = "{0:.2f}".format(100 * len(neut_tweets) / len(tweets))
+
+    return positive, negative, neutral
 
 
 
 
-
-
-
-
-
-
-# # these variables call the percentage function to divide the cumulative polarity scores by the number of tweets analyzed. 
+'''
+extrenuous code, below...
+'''
+# ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
+# ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negitive']
+# # these variables call the percentage function to divide the cumulative polarity scores by the number of tweets analyzed.
 # positive = percentage(positive, number_tweets_analyze)
 # negative = percentage(negative, number_tweets_analyze)
 # neutral = percentage(neutral, number_tweets_analyze)
 # polarity = percentage(polarity, number_tweets_analyze)
-
-# # to two decimals 
+# # to two decimals
 # positive = format(positive, '.2f')
 # negative = format(negative, '.2f')
 # neutral = format(neutral, '.2f')
-
 # print('General Sentiment for  ' + search + ' by analyzing ' + str(number_tweets_analyze)+ ' tweets.')
-
-# # uses the cumulative polarity to return the general sentiment of the sample 
+# # uses the cumulative polarity to return the general sentiment of the sample
 # if (polarity == 0):
 #     print('general sentiment is neutral')
 # elif(polarity < 0):
 #     print('general sentiment is negative')
 # elif(polarity > 0):
 #     print('general sentiment is positive')
-
 '''
 this is the pie chart.... stretch goal... 
 '''
@@ -137,7 +144,7 @@ this is the pie chart.... stretch goal...
 # plt.title('General Sentiment for  ' + search + ' by analyzing ' + str(number_tweets_analyze)+ ' tweets.')
 # plt.axis('equal')
 # plt.tight_layout()
-# plt.show() # look up how to show the image. 
+# plt.show() # look up how to show the image.
 
 
 # botometer documentation
@@ -158,3 +165,16 @@ response = requests.request("GET", url, headers=headers)
 print(response.text)
 
 '''
+    # for tweet in search_results:
+    #     parsed_tweet = {}
+    #     parsed_tweet['text'] = tweet.text
+    #     parsed_tweet['sentiment'] = get_tweet_sentiment(tweet.text)
+
+    #     if tweet.retweet_count > 0:
+    #         '''
+    #         only append retweets once
+    #         '''
+    #         if parsed_tweet not in tweets:
+    #             tweets.append(parsed_tweet)
+    #         else:
+    #             tweets.append(parsed_tweet)
