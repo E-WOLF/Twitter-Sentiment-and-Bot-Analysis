@@ -16,6 +16,6 @@ Check to see if the user input above is a bot...
 
 botometer_api_url = 'https://botometer-pro.p.rapidapi.com'
 bom = botometer.Botometer(botometer_api_url=botometer_api_url, wait_on_ratelimit=True, rapidapi_key=rapidapi_key, **twitter_app_auth)
-result = bom.check_account('@StephenCurry30')
+result = bom.check_account('@probabot_')
 
 print(result)
