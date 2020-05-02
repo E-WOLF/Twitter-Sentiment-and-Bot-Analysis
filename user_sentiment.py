@@ -16,7 +16,6 @@ from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
-rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9"
 auth = OAuthHandler(twitter_credentials.consumer_key,
                     twitter_credentials.consumer_secret)  # authentication object
 # setting the access token & access token secret
@@ -29,12 +28,12 @@ api = tweepy.API(auth)  # creating API object that uses auth info
 
 def is_bot(account):
     # now it's called rapidapi key
-    rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9"
+    rapidapi_key = twitter_credentials.rapidapi_key
     twitter_app_auth = {
-        'consumer_key': 'bhMOINHjn7hJrSuw207fISCuZ',
-        'consumer_secret': 'dNPYY23HgRyCvzsOvEFkQ1XYJdemSczBAD7wFx4XOVC3vDlqPY',
-        'access_token': '708013197060657152-MOq9K2WaueJJRuxPWwhsJbVeCDccr42',
-        'access_token_secret': 'ACHgS2VAI5udSOSkxYjdBbj3YIgXObEWQHPs0FCSVDUFo',
+        'consumer_key': twitter_credentials.consumer_key,
+        'consumer_secret': twitter_credentials.consumer_secret,
+        'access_token': twitter_credentials.token,
+        'access_token_secret': twitter_credentials.token_secret,
     }
 
     '''
