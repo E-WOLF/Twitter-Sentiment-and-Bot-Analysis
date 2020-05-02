@@ -6,6 +6,7 @@ import numpy as np
 import re 
 import matplotlib.pyplot as plt
 import botometer
+import requests 
 
 from textblob import TextBlob
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator # to run a wordcloud you need the proper software installed in system (I have visual studio)
@@ -13,15 +14,35 @@ from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
-
+rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9"
 auth = OAuthHandler(twitter_credentials.consumer_key, twitter_credentials.consumer_secret) # authentication object
 auth.set_access_token(twitter_credentials.token, twitter_credentials.token_secret) # setting the access token & access token secret 
 api = tweepy.API(auth) # creating API object that uses auth info
 
-# extract tweets from user
+# documentation: https://github.com/IUNetSci/botometer-python
+
+def is_bot(bot):
+    rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9" # now it's called rapidapi key
+    twitter_app_auth = {
+    'consumer_key': 'bhMOINHjn7hJrSuw207fISCuZ',
+    'consumer_secret': 'dNPYY23HgRyCvzsOvEFkQ1XYJdemSczBAD7wFx4XOVC3vDlqPY',
+    'access_token': '708013197060657152-MOq9K2WaueJJRuxPWwhsJbVeCDccr42',
+    'access_token_secret': 'ACHgS2VAI5udSOSkxYjdBbj3YIgXObEWQHPs0FCSVDUFo',
+    }
+
+    '''
+    Check to see if the user input above is a bot...
+    '''
+
+    botometer_api_url = 'https://botometer-pro.p.rapidapi.com'
+    bom = botometer.Botometer(botometer_api_url=botometer_api_url, wait_on_ratelimit=True, rapidapi_key=rapidapi_key, **twitter_app_auth)
+    result = bom.check_account(tweet)
+    return
 
 def percentage(part, whole):
     return 100 * float(part)/float(whole)
+
+# extract tweets from user
 
 def get_tweet_sentiment(tweet):
 	'''
@@ -40,16 +61,7 @@ def get_tweet_sentiment(tweet):
         #need help with this
         # code for pie chart https://matplotlib.org/3.1.1/gallery/pie_and_polar_charts/pie_features.html
 
-labels = ['Positive [' + str(positive) + '%]', 'Negative [' + str(negative) + '%]', 'Neutral [' + str(neutral) + '%]']
-sizes = [positive, neutral, negative]
-colors =['yellow', 'red', 'blue']
 
-patches, texts = plt.pie(sizes, colors = colors, startangle = 90)
-plt.legend(patches, labels, loc ="best")
-plt.title('General Sentiment for  ' + search + ' by analyzing ' + str(number_tweets_analyze)+ ' tweets.')
-plt.axis('equal')
-plt.tight_layout()
-plt.show()
 
 def get_tweets(user_name, number_tweets_analyze=50):
     """
@@ -73,20 +85,7 @@ def get_tweets(user_name, number_tweets_analyze=50):
                 t.append(parsed_tweet)
     return t
 
-    
-
-def is_bot(bot):
-    '''
-    Check to see if the user input above is a bot...
-    '''
-
-    bom = botometer.Botometer(wait_on_ratelimit=True,
-                            mashape_key=mashape_key,
-                            **api)
-
-    # Check a single account by screen name
-    result = bom.check_account(tweet)
-
+   
 
         
 def find_twitter_user():
@@ -125,3 +124,37 @@ def find_twitter_user():
 # elif(polarity > 0):
 #     print('general sentiment is positive')
 
+'''
+this is the pie chart.... stretch goal... 
+'''
+
+# labels = ['Positive [' + str(positive) + '%]', 'Negative [' + str(negative) + '%]', 'Neutral [' + str(neutral) + '%]']
+# sizes = [positive, neutral, negative]
+# colors =['yellow', 'red', 'blue']
+
+# patches, texts = plt.pie(sizes, colors = colors, startangle = 90)
+# plt.legend(patches, labels, loc ="best")
+# plt.title('General Sentiment for  ' + search + ' by analyzing ' + str(number_tweets_analyze)+ ' tweets.')
+# plt.axis('equal')
+# plt.tight_layout()
+# plt.show() # look up how to show the image. 
+
+
+# botometer documentation
+'''
+# Check a single account by screen name
+    result = bom.check_account(tweet)
+
+# from the botometer documentation
+url = "https://botometer10.p.rapidapi.comhttps//osome-botometer.p.rapidapi.com"
+
+headers = {
+    'x-rapidapi-host': "botometer10.p.rapidapi.com",
+    'x-rapidapi-key': "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9"
+    }
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+
+'''

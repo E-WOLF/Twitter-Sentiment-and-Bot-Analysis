@@ -10,7 +10,7 @@ def hello():
     if request.method == 'POST':
         query = request.form['query']
         count = request.form['count']
-        tweets = get_tweets(user_name = user_name, number_tweets_analyze = number_tweets_analyze)
+        tweets = user_sentiment.get_tweets(query = query, count = count)
         ptweets = [tweet for tweet in tweets if tweet['sentiment']=='positive']
         ntweets = [tweet for tweet in tweets if tweet['sentiment']=='negitive']
 
@@ -22,8 +22,8 @@ def hello():
         neutral = "{0:.2f}".format(100 * (len(tweets) - len(ntweets) - len(ptweets)) / len(tweets))
         results = [positive, negative, neutral, query, count]
         print(query)
-
-        return render_template('index.html,',  error=None)
+        return render_template('index.html,', (# pass the through))
+    
     else:
         return render_template('index.html')
         
