@@ -22,11 +22,7 @@ font-size: 20px;
   <body>
   
     <h1>Twitter Botcheck & Sentiment Analysis Tool.</h1>
-    <form  method="POST" name="user_sentiment">
-        {% if error %}
-        <p> Invalid. Please enter in a twitter user. </p>
-        {% endif %}
-        </p>           
+    <form  method="POST" name="user_sentiment">         
         <p><b> Please enter a twitter user ID (include @): </b></p>
         <p>
         <input type="text" size="18" name="account" placeholder="Ex: @janedoe">
