@@ -4,6 +4,18 @@ facilitate tiwtter user sentiment analysis and to be able to see if the user is 
 This easy to use web-app can be applied to the current state of politial discourse, news, and world events to check the credibility of your 
 information sources, as well as gauge a sense of the overall tone and demeanor of the user. 
 
+Using the Code:
+
+1. Fork, clone, or download the repository
+2. Make sure that you have FLASK installed. 
+3. In terminal:
+  4. type "set FLASK_APP=app.py"
+  5. type "flask run" 
+6. The website should now be hosted on your computer.
+7. Copy the the url. 
+8. Paste url and use tool!
+
+
 Some things to note when using this tool:
 
 1. Enter in the "@" symbol for best performance.
