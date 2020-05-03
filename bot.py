@@ -1,14 +1,14 @@
-# this is a test page for the bot API...
+# this is a test page for the bot API... 
 import botometer
 import tweepy
 from pprint import pprint
 
-rapidapi_key = "74b8c6af71mshdcaf5182ae5b714p1c90fcjsn4ed7590773a9" # now it's called rapidapi key
+rapidapi_key = "RAPID API KEY" # now it's called rapidapi key
 twitter_app_auth = {
-    'consumer_key': 'bhMOINHjn7hJrSuw207fISCuZ',
-    'consumer_secret': 'dNPYY23HgRyCvzsOvEFkQ1XYJdemSczBAD7wFx4XOVC3vDlqPY',
-    'access_token': '708013197060657152-MOq9K2WaueJJRuxPWwhsJbVeCDccr42',
-    'access_token_secret': 'ACHgS2VAI5udSOSkxYjdBbj3YIgXObEWQHPs0FCSVDUFo',
+    'consumer_key': 'CONSUMER_KEY',
+    'consumer_secret': 'CONSUMER SECRET',
+    'access_token': 'ACCESS-TOKEN',
+    'access_token_secret': 'TOKEN-SECRET',
     }
 
 '''

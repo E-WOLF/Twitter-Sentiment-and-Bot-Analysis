@@ -27,7 +27,6 @@ api = tweepy.API(auth)  # creating API object that uses auth info
 
 
 def is_bot(account):
-    # now it's called rapidapi key
     rapidapi_key = config.rapidapi_key 
     twitter_app_auth = {
         'consumer_key': config.consumer_key,
@@ -79,6 +78,8 @@ def get_tweets(user_name, number_tweets_analyze=50):
 def calc_user_sentiment_stats(user, count=50):
     '''
     function to tie everything together.
+    The for-loop appends tweets based on pulling them through the "get_tweet_sentiment" function. 
+    This list is then used to calculate percentages based on the entire API pull request. 
     '''
     tweets = get_tweets(user)
 
@@ -102,10 +103,10 @@ def calc_user_sentiment_stats(user, count=50):
     # percentage of neutral tweets
     neutral = "{0:.2f}".format(100 * len(neut_tweets) / len(tweets))
 
-    return positive, negative, neutral
+    return positive, negative, neutral # return all of the % compositions.
 
 
-
+# the code below is functional but complicated the webapp unessesarily. 
 
 '''
 extrenuous code, below...
