@@ -16,5 +16,6 @@ Future goals:
 2. Implement keyword sentiment anlaysis searches, filtering out only a bot's tweets. 
 3. Make the website more user friendly, UI & UX more appealing. 
 4. Further parse & filter tweets for more accurate findings. 
+5. Display the tweets with the highest sentiment and botometer scores. 
 
-Enjoy. 
+
