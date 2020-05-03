@@ -1,6 +1,6 @@
 import nltk
 # this file has my twitter API credentials: consumer key, consumer secret, access token, access secret.
-import twitter_credentials
+import config 
 import tweepy
 import pandas as pd
 import numpy as np
@@ -16,11 +16,11 @@ from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
-auth = OAuthHandler(twitter_credentials.consumer_key,
-                    twitter_credentials.consumer_secret)  # authentication object
+auth = OAuthHandler(config.consumer_key,
+                    config.consumer_secret)  # authentication object
 # setting the access token & access token secret
-auth.set_access_token(twitter_credentials.token,
-                      twitter_credentials.token_secret)
+auth.set_access_token(config.token,
+                      config.token_secret)
 api = tweepy.API(auth)  # creating API object that uses auth info
 
 # documentation: https://github.com/IUNetSci/botometer-python
@@ -28,12 +28,12 @@ api = tweepy.API(auth)  # creating API object that uses auth info
 
 def is_bot(account):
     # now it's called rapidapi key
-    rapidapi_key = twitter_credentials.rapidapi_key
+    rapidapi_key = config.rapidapi_key 
     twitter_app_auth = {
-        'consumer_key': twitter_credentials.consumer_key,
-        'consumer_secret': twitter_credentials.consumer_secret,
-        'access_token': twitter_credentials.token,
-        'access_token_secret': twitter_credentials.token_secret,
+        'consumer_key': config.consumer_key,
+        'consumer_secret': config.consumer_secret,
+        'access_token': config.token,
+        'access_token_secret': config.token_secret,
     }
 
     '''
@@ -62,7 +62,7 @@ def get_tweet_sentiment(tweet):
         return 'positive'
     elif analysis.sentiment.polarity == 0:
         return 'neutral'
-    else:
+    elif analysis.sentiment.polarity < 0:
         return 'negative'
 
 
@@ -73,7 +73,6 @@ def get_tweets(user_name, number_tweets_analyze=50):
     # tweets = []
     tweets = api.search(
         q=user_name, number_tweets_analyze=number_tweets_analyze)
-
     return tweets
 
 
@@ -91,7 +90,7 @@ def calc_user_sentiment_stats(user, count=50):
         sentiment = get_tweet_sentiment(tweet)
         if sentiment == 'positive':
             pos_tweets.append(tweet)
-        elif sentiment == 'negitive':
+        elif sentiment == 'negative':
             neg_tweets.append(tweet)
         elif sentiment == 'neutral':
             neut_tweets.append(tweet)
